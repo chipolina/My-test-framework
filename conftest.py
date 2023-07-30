@@ -12,7 +12,7 @@ def pytest_addoption(parser):
     parser.addoption("--headless", action='store_true')
     parser.addoption("--base_url", default="http://192.168.15.100:8081/")
     parser.addoption("--remote_url", default="127.0.0.1:4444")
-    #TODO изменить параметр drivers_folder
+    # TODO изменить параметр drivers_folder
     parser.addoption("--drivers_folder", default="drivers")
     parser.addoption("--stage", default='local', choices=("local", "remote"))
     parser.addoption("--bversion", action="store", default="114.0")
