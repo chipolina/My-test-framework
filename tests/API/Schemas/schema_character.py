@@ -12,8 +12,8 @@ class People(BaseModel):
     eye_color: str
     gender: str
     hair_color: str
-    height: str
-    mass: str
+    height: int
+    mass: float
     skin_color: str
     homeworld: str
     films: List[HttpUrl]
