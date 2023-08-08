@@ -1,5 +1,6 @@
 import os.path
 
+import allure
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.firefox.service import Service as FirefoxService
@@ -10,7 +11,7 @@ import pytest
 def pytest_addoption(parser):
     parser.addoption("--browser", default="chrome", choices=("chrome", "firefox", "safari"))
     parser.addoption("--headless", action='store_true')
-    parser.addoption("--base_url", default="http://192.168.15.100:8081/")
+    parser.addoption("--base_url", default="https://demo.nopcommerce.com/")
     parser.addoption("--remote_url", default="127.0.0.1:4444")
     # TODO изменить параметр drivers_folder
     parser.addoption("--drivers_folder", default="drivers")
@@ -79,3 +80,13 @@ def browser(request):
 @pytest.fixture
 def base_url(request):
     return request.config.getoption("--base_url")
+
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item):
+    outcome = yield
+    rep = outcome.get_result()
+    if rep.when == 'call' and rep.failed:
+        browser = item.funcargs['browser']  # Get the browser instance from the test's fixture
+        img = browser.get_screenshot_as_png()
+        allure.attach(img, 'Failure screenshot', allure.attachment_type.PNG)
