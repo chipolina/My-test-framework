@@ -33,10 +33,24 @@ class RegisterPage(BasePage):
     def find_register_succes(self):
         return self.element(self.REGISTRATION_SUCCESS)
 
+    def find_email_error(self):
+        return self.element(self.EMAIL_ERROR)
+
+    def find_first_name_error(self):
+        return self.element(self.FIRST_NAME_ERROR)
+
+    def find_last_name_error(self):
+        return self.element(self.LAST_NAME_ERROR)
+
+    def find_password_error(self):
+        return self.element(self.PASSWORD_ERROR)
+
+    def find_password_confirm_error(self):
+        return self.element(self.PASSWORD_CONFIRM_ERROR)
+
     def create_random_user(self):
         password = generate_text(10)
         email = generate_email()
-        # self.element(self.GENDER_MALE).click()
         self.element(self.FIRST_NAME).send_keys(generate_text(10))
         self.element(self.LAST_NAME).send_keys(generate_text(10))
         self.element(self.EMAIL).send_keys(email)
