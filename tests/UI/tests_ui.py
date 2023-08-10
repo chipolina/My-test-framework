@@ -1,4 +1,5 @@
 import allure
+import pytest
 
 from tests.UI.page_objects.login_page import LogInPage
 from tests.UI.page_objects.main_page import MainPage
@@ -13,8 +14,8 @@ def test_check_main_page_elements(browser, base_url):
     """
     browser.get(base_url)
     main_page = MainPage(browser)
-    with allure.step('Check the number of Categories'):
-        main_page.check_len_elements(MainPage.CATEGORIES, 7)
+    with allure.step('Check the number of Categories is equal 7'):
+        main_page.check_elements_number(7)
 
 
 @allure.title('Register new user')
@@ -71,7 +72,7 @@ def test_add_book_to_cart(browser, base_url):
     with allure.step('Number of products is 3'):
         products_page.check_products_number(3)
     with allure.step('Check the cart quantity'):
-        main_page.check_element_text(main_page.SHOPPINGCART_QTY, '(0)')
+        main_page.check_shopping_cart_qty('(0)')
     with allure.step('Check first book title is Fahrenheit 451 by Ray Bradbury'):
         products_page.check_first_book_title('Fahrenheit 451 by Ray Bradbury')
     with allure.step('Add the book to the cart'):
@@ -80,7 +81,7 @@ def test_add_book_to_cart(browser, base_url):
         products_page.check_notification_add_to_cart_success_text()
         products_page.find_notification_close_btn().click()
     with allure.step('Check new cart quantity'):
-        main_page.check_element_text(main_page.SHOPPINGCART_QTY, '(1)')
+        main_page.check_shopping_cart_qty('(1)')
 
 
 @allure.title('Add book to wl')
@@ -95,7 +96,7 @@ def test_add_book_to_wl(browser, base_url):
     with allure.step('Go to books page'):
         main_page.find_books_btn().click()
     with allure.step('Check the wl quantity'):
-        main_page.check_element_text(main_page.WL_QTY, '(0)')
+        main_page.check_wl_qty('(0)')
     with allure.step('Check first book title is Fahrenheit 451 by Ray Bradbury'):
         products_page.check_first_book_title('Fahrenheit 451 by Ray Bradbury')
     with allure.step('Add the book to wl'):
@@ -104,7 +105,7 @@ def test_add_book_to_wl(browser, base_url):
         products_page.check_notification_add_to_wl_success_text()
         products_page.find_notification_close_btn().click()
     with allure.step('Check new cart quantity'):
-        main_page.check_element_text(main_page.WL_QTY, '(1)')
+        main_page.check_wl_qty('(1)')
 
 
 @allure.title('Search products')
@@ -143,3 +144,62 @@ def test_bad_user_login(browser, base_url):
         login_page.find_login_btn().click()
     with allure.step('Check email error message'):
         login_page.check_email_error_text()
+
+
+@allure.title('Change currency')
+def test_change_currency(browser, base_url):
+    """
+    Change currency
+    """
+    browser.get(base_url)
+    main_page = MainPage(browser)
+    products_page = ProductsPage(browser)
+
+    with allure.step('Go to books page'):
+        main_page.find_books_btn().click()
+    with allure.step('Check usd book price'):
+        products_page.check_actual_usd_price('$27.00')
+    with allure.step('Change price to euro'):
+        products_page.change_currency_to_euro()
+    with allure.step('Check euro book price'):
+        products_page.check_actual_euro_price('€23.22')
+    with allure.step('Change price to usd'):
+        products_page.change_currency_to_usd()
+    with allure.step('Check usd book price'):
+        products_page.check_actual_usd_price('$27.00')
+
+
+@allure.title('Check social media')
+def test_check_social_media(browser, base_url):
+    """
+    Check social media
+    """
+    browser.get(base_url)
+    main_page = MainPage(browser)
+
+    with allure.step('Check for social media'):
+        main_page.check_social_networks()
+
+
+@pytest.mark.test
+@allure.title('Change products view')
+def test_change_products_view(browser, base_url):
+    """
+    Change products view
+    """
+    browser.get(base_url)
+    main_page = MainPage(browser)
+    products_page = ProductsPage(browser)
+
+    with allure.step('Go to books page'):
+        main_page.find_books_btn().click()
+    with allure.step('Check grid view'):
+        products_page.check_products_view_grid_number(3)
+    with allure.step('Change view to list'):
+        products_page.find_list_view().click()
+    with allure.step('Check list view'):
+        products_page.check_products_view_list_number(3)
+    with allure.step('Change view to grid'):
+        products_page.find_grid_view().click()
+    with allure.step('Check grid view'):
+        products_page.check_products_view_grid_number(3)
