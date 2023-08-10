@@ -7,6 +7,7 @@ from tests.UI.page_objects.products_page import ProductsPage
 from tests.UI.page_objects.register_page import RegisterPage
 
 
+@pytest.mark.ui
 @allure.title('Check the number of categories')
 def test_check_main_page_elements(browser, base_url):
     """
@@ -18,6 +19,7 @@ def test_check_main_page_elements(browser, base_url):
         main_page.check_elements_number(7)
 
 
+@pytest.mark.ui
 @allure.title('Register new user')
 def test_register_new_user(browser, base_url):
     """
@@ -37,6 +39,7 @@ def test_register_new_user(browser, base_url):
         register_page.check_success_registration()
 
 
+@pytest.mark.ui
 @allure.title('Register new user required fields are empty')
 def test_register_new_user_empty_fields(browser, base_url):
     """
@@ -58,6 +61,7 @@ def test_register_new_user_empty_fields(browser, base_url):
         register_page.find_password_confirm_error()
 
 
+@pytest.mark.ui
 @allure.title('Add book to the cart')
 def test_add_book_to_cart(browser, base_url):
     """
@@ -84,6 +88,7 @@ def test_add_book_to_cart(browser, base_url):
         main_page.check_shopping_cart_qty('(1)')
 
 
+@pytest.mark.ui
 @allure.title('Add book to wl')
 def test_add_book_to_wl(browser, base_url):
     """
@@ -108,6 +113,7 @@ def test_add_book_to_wl(browser, base_url):
         main_page.check_wl_qty('(1)')
 
 
+@pytest.mark.ui
 @allure.title('Search products')
 def test_search_products(browser, base_url):
     """
@@ -127,6 +133,7 @@ def test_search_products(browser, base_url):
         products_page.check_search_results('APPLE')
 
 
+@pytest.mark.ui
 @allure.title('Bad user Login')
 def test_bad_user_login(browser, base_url):
     """
@@ -146,6 +153,7 @@ def test_bad_user_login(browser, base_url):
         login_page.check_email_error_text()
 
 
+@pytest.mark.ui
 @allure.title('Change currency')
 def test_change_currency(browser, base_url):
     """
@@ -169,6 +177,7 @@ def test_change_currency(browser, base_url):
         products_page.check_actual_usd_price('$27.00')
 
 
+@pytest.mark.ui
 @allure.title('Check social media')
 def test_check_social_media(browser, base_url):
     """
@@ -181,7 +190,7 @@ def test_check_social_media(browser, base_url):
         main_page.check_social_networks()
 
 
-@pytest.mark.test
+@pytest.mark.ui
 @allure.title('Change products view')
 def test_change_products_view(browser, base_url):
     """

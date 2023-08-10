@@ -12,6 +12,7 @@ import allure
 base_url = "https://swapi.dev/api/"
 
 
+@pytest.mark.api
 @allure.title('Check server status')
 def test_api_status():
     r = requests.get(base_url)
@@ -19,6 +20,7 @@ def test_api_status():
     resp.check_status_code(200).validate()
 
 
+@pytest.mark.api
 @allure.title('Get all films')
 def test_get_all_film():
     r = requests.get(f"{base_url}/films")
@@ -27,6 +29,7 @@ def test_get_all_film():
     resp.check_length('results', 6)
 
 
+@pytest.mark.api
 @allure.title('Get existing film info')
 def test_get_existing_film_info():
     film_id = 1
@@ -37,6 +40,7 @@ def test_get_existing_film_info():
     assert resp.response_json['title'] == "A New Hope"
 
 
+@pytest.mark.api
 @allure.title('Get not existing film')
 def test_get_not_existing_film():
     film_id = 10
@@ -45,6 +49,7 @@ def test_get_not_existing_film():
     resp.check_status_code(404)
 
 
+@pytest.mark.api
 @allure.title('Get existing character info')
 def test_get_existing_character_info():
     character_id = 1
@@ -55,6 +60,7 @@ def test_get_existing_character_info():
     assert resp.response_json['name'] == "Luke Skywalker"
 
 
+@pytest.mark.api
 @allure.title('Get not existing character')
 def test_get_not_existing_character():
     character_id = 200
@@ -62,7 +68,8 @@ def test_get_not_existing_character():
     resp = Response(r)
     resp.check_status_code(404)
 
-@pytest.mark.test
+
+@pytest.mark.api
 @pytest.mark.parametrize('name, count, result', [
     pytest.param("LUKE", 1, "Luke Skywalker", id='uppercase'),
     pytest.param("luke", 1, "Luke Skywalker", id='lowercase'),
@@ -79,6 +86,7 @@ def test_search_character_by_name(name, count, result):
     assert resp.response_json['results'][0]['name'] == result
 
 
+@pytest.mark.api
 @allure.title('Get all vehicles')
 def test_get_all_vehicles():
     r = requests.get(f"{base_url}/vehicles/")
@@ -86,6 +94,7 @@ def test_get_all_vehicles():
     resp.check_status_code(200).validate()
 
 
+@pytest.mark.api
 @allure.title('Search vehicle by id')
 def test_vehicle_by_id():
     vehicle_id = 4
@@ -96,6 +105,7 @@ def test_vehicle_by_id():
     assert resp.response_json['name'] == "Sand Crawler"
 
 
+@pytest.mark.api
 @allure.title('Get non existing vehicle')
 def test_get_non_existing_vehicle():
     vehicle_id = 40
@@ -104,6 +114,7 @@ def test_get_non_existing_vehicle():
     resp.check_status_code(404)
 
 
+@pytest.mark.api
 @allure.title('Search vehicle by name')
 @pytest.mark.parametrize('name, count, result', [pytest.param("skiff", 1, "Bantha-II cargo skiff", id="lowercase"),
                                                  pytest.param("SKIFF", 1, "Bantha-II cargo skiff", id="uppercase"),
@@ -117,6 +128,7 @@ def test_search_vehicle_by_name(name, count, result):
     assert resp.response_json['results'][0]['name'] == result
 
 
+@pytest.mark.api
 @allure.title('Search vehicle by model')
 @pytest.mark.parametrize('model_name, count, result', [pytest.param("Digger", 1, "Digger Crawler", id="capitalize"),
                                                        pytest.param("DIGGER", 1, "Digger Crawler", id="uppercase"),
@@ -131,6 +143,7 @@ def test_search_vehicle_by_model(model_name, count, result):
     assert resp.response_json['results'][0]['model'] == result
 
 
+@pytest.mark.api
 @allure.title('Search planet by id')
 def test_get_planet_by_id():
     planet_id = 2
@@ -139,6 +152,7 @@ def test_get_planet_by_id():
     resp.check_status_code(200).validate()
 
 
+@pytest.mark.api
 @allure.title('Search not existing planet')
 def test_get_non_existing_planet():
     planet_id = 400
@@ -147,6 +161,7 @@ def test_get_non_existing_planet():
     resp.check_status_code(404)
 
 
+@pytest.mark.api
 @allure.title('Search planet by name')
 @pytest.mark.parametrize('planet_name, count, result', [pytest.param("Polis", 1, "Polis Massa", id="capitalize"),
                                                         pytest.param("POLIS", 1, "Polis Massa", id="uppercase"),
@@ -161,6 +176,7 @@ def test_search_planet_by_name(planet_name, count, result):
     assert resp.response_json['results'][0]['name'] == result
 
 
+@pytest.mark.api
 @allure.title('Get all planets')
 def test_get_all_planets():
     r = requests.get(f"{base_url}/planets")

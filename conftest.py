@@ -20,6 +20,7 @@ def pytest_addoption(parser):
     parser.addoption("--vnc", action="store_true", default=False)
     parser.addoption("--logs", action="store_true", default=False)
     parser.addoption("--videos", action="store_true", default=False)
+    parser.addoption("--mark", default="", choices=("API", "UI"))
 
 
 @pytest.fixture
