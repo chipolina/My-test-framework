@@ -1,17 +1,12 @@
 pipeline {
-  agent {
-    dockerfile true
-    }
+  agent any
   stages {
-     stage("Build image") {
-        steps {
-    	catchError {
-      	   script {
-        	      docker.build("tests", "-f Dockerfile .")
-      	 }
-          }
-       }
-    }
+      stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.build("tests:${env.BUILD_ID}", "-f Dockerfile .")
+                }
+            }
      stage('Pull browser') {
         steps {
            catchError {
@@ -28,24 +23,27 @@ pipeline {
         }
         }
      }
-     stage('Run tests') {
-        steps {
-            catchError {
-                sh "docker run --rm --network=${network} tests"
-         }
-         }
-         }
-     stage('Reports') {
-        steps {
-           allure([
-      	   includeProperties: false,
-      	   jdk: '',
-      	   properties: [],
-      	   reportBuildPolicy: 'ALWAYS',
-      	   results: [[path: 'allure-results']]
-    	   ])
-  	        }
-         }
+     stage('Run Tests') {
+            steps {
+                script {
+                    def container = docker.image("tests:${env.BUILD_ID}")
+                    container.inside("-v ${WORKSPACE}/allure-results:/app/allure-results") {
+                        sh "pytest -m api"
+                    }
+                }
+            }
+        }
+//      stage('Reports') {
+//         steps {
+//            allure([
+//       	   includeProperties: false,
+//       	   jdk: '',
+//       	   properties: [],
+//       	   reportBuildPolicy: 'ALWAYS',
+//       	   results: [[path: 'allure-results']]
+//     	   ])
+//   	        }
+//          }
      stage('Stop selenoid') {
         steps {
             catchError {
