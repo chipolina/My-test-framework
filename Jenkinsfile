@@ -9,23 +9,23 @@ pipeline {
             }
         }
 
-        stage('Pull browser') {
-            steps {
-                catchError {
-                    script {
-                        docker.image('selenoid/chrome:114.0')
-                    }
-                }
-            }
-        }
-
-        stage('Start selenoid') {
-            steps {
-                catchError {
-                    sh "/Users/denis/Desktop/drivers/cm selenoid start"
-                }
-            }
-        }
+//         stage('Pull browser') {
+//             steps {
+//                 catchError {
+//                     script {
+//                         docker.image('selenoid/chrome:114.0')
+//                     }
+//                 }
+//             }
+//         }
+//
+//         stage('Start selenoid') {
+//             steps {
+//                 catchError {
+//                     sh "/Users/denis/Desktop/drivers/cm selenoid start"
+//                 }
+//             }
+//         }
 
         stage('Run Tests') {
             steps {
@@ -52,12 +52,12 @@ pipeline {
         }
         */
 
-        stage('Stop selenoid') {
-            steps {
-                catchError {
-                    sh "/Users/denis/Desktop/drivers/cm selenoid stop"
-                }
-            }
-        }
+//         stage('Stop selenoid') {
+//             steps {
+//                 catchError {
+//                     sh "/Users/denis/Desktop/drivers/cm selenoid stop"
+//                 }
+//             }
+//         }
     }
 }
