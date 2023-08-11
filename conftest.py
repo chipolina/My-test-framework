@@ -12,9 +12,9 @@ def pytest_addoption(parser):
     parser.addoption("--browser", default="chrome", choices=("chrome", "firefox", "safari"))
     parser.addoption("--headless", action='store_true')
     parser.addoption("--base_url", default="https://demo.nopcommerce.com/")
-    parser.addoption("--remote_url", default="127.0.0.1:4444")
+    parser.addoption("--remote_url", default="127.0.0.1")
     # TODO изменить параметр drivers_folder
-    parser.addoption("--drivers_folder", default="drivers")
+    parser.addoption("--drivers_folder", default="/Users/denis/PycharmProjects/Otus_final/drivers")
     parser.addoption("--stage", default='local', choices=("local", "remote"))
     parser.addoption("--bversion", action="store", default="114.0")
     parser.addoption("--vnc", action="store_true", default=False)
@@ -60,7 +60,6 @@ def browser(request):
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.set_capability("browserVersion", version)
-        chrome_options.set_capability("screenResolution", "1280x1024")
         chrome_options.set_capability("selenoid:options", {
             "sessionTimeout": "60s",
             "enableVNC": vnc,
