@@ -12,9 +12,9 @@ def pytest_addoption(parser):
     parser.addoption("--browser", default="chrome", choices=("chrome", "firefox", "safari"))
     parser.addoption("--headless", action='store_true')
     parser.addoption("--base_url", default="https://demo.nopcommerce.com/")
-    parser.addoption("--remote_url", default="127.0.0.1")
+    parser.addoption("--remote_url", default="127.0.0.1:4444")
     # TODO изменить параметр drivers_folder
-    parser.addoption("--drivers_folder", default="/Users/denis/PycharmProjects/Otus_final/drivers")
+    parser.addoption("--drivers_folder", default="/Users/denis/Desktop/drivers")
     parser.addoption("--stage", default='local', choices=("local", "remote"))
     parser.addoption("--bversion", action="store", default="114.0")
     parser.addoption("--vnc", action="store_true", default=False)

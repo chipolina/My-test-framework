@@ -1,4 +1,3 @@
-@Library('docker') _
 pipeline {
   agent any
   stages {
@@ -23,7 +22,7 @@ pipeline {
      stage('Start selenoid') {
         steps {
             catchError {
-                sh "/Users/denis/PycharmProjects/Otus_final/drivers/cm selenoid start"
+                sh "/Users/denis/Desktop/drivers/cm selenoid start"
         }
         }
      }
@@ -48,7 +47,7 @@ pipeline {
      stage('Stop selenoid') {
         steps {
             catchError {
-                sh "/Users/denis/PycharmProjects/Otus_final/drivers/cm selenoid stop"
+                sh "/Users/denis/Desktop/drivers/cm selenoid stop"
         }
         }
      }
