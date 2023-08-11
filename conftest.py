@@ -1,5 +1,6 @@
 import os.path
 
+import allure
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.firefox.service import Service as FirefoxService
@@ -10,15 +11,16 @@ import pytest
 def pytest_addoption(parser):
     parser.addoption("--browser", default="chrome", choices=("chrome", "firefox", "safari"))
     parser.addoption("--headless", action='store_true')
-    parser.addoption("--base_url", default="http://192.168.15.100:8081/")
-    parser.addoption("--remote_url", default="127.0.0.1:4444")
+    parser.addoption("--base_url", default="https://demo.nopcommerce.com/")
+    parser.addoption("--remote_url", default="127.0.0.1")
     # TODO изменить параметр drivers_folder
-    parser.addoption("--drivers_folder", default="drivers")
+    parser.addoption("--drivers_folder", default="/Users/denis/PycharmProjects/Otus_final/drivers")
     parser.addoption("--stage", default='local', choices=("local", "remote"))
     parser.addoption("--bversion", action="store", default="114.0")
     parser.addoption("--vnc", action="store_true", default=False)
     parser.addoption("--logs", action="store_true", default=False)
     parser.addoption("--videos", action="store_true", default=False)
+    parser.addoption("--mark", default="", choices=("API", "UI"))
 
 
 @pytest.fixture
@@ -58,7 +60,6 @@ def browser(request):
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.set_capability("browserVersion", version)
-        chrome_options.set_capability("screenResolution", "1280x1024")
         chrome_options.set_capability("selenoid:options", {
             "sessionTimeout": "60s",
             "enableVNC": vnc,
@@ -79,3 +80,13 @@ def browser(request):
 @pytest.fixture
 def base_url(request):
     return request.config.getoption("--base_url")
+
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item):
+    outcome = yield
+    rep = outcome.get_result()
+    if rep.when == 'call' and rep.failed:
+        browser = item.funcargs['browser']  # Get the browser instance from the test's fixture
+        img = browser.get_screenshot_as_png()
+        allure.attach(img, 'Failure screenshot', allure.attachment_type.PNG)
