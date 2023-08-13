@@ -35,7 +35,7 @@ pipeline {
                 catchError {
                     sh "docker run --rm --network=${network} tests sh -c '/usr/local/bin/pytest -n 4 -m api --alluredir=/app/allure-results'"
                     }
-                    sh "allure generate /app/allure-results -o /app/allure-report"
+                    sh "/usr/local/bin/allure generate /app/allure-results -o /app/allure-report"
             }
         }
         stage('Reports') {
