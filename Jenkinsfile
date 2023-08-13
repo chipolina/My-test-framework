@@ -2,13 +2,13 @@ pipeline {
     agent any
     environment {
         DOCKER_PATH = '/Applications/Docker.app/Contents/Resources/bin'
+        PATH = "${DOCKER_PATH}:${PATH}"
     }
     stages {
         stage("Build image") {
             steps {
                 catchError {
                     script {
-                        sh "export PATH=$PATH:${DOCKER_PATH}"
                         docker.build("tests", "-f Dockerfile .")
                     }
                 }
