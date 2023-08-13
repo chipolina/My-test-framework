@@ -15,7 +15,7 @@ def pytest_addoption(parser):
     parser.addoption("--remote_url", default="127.0.0.1:4444")
     # TODO изменить параметр drivers_folder
     parser.addoption("--drivers_folder", default="/Users/denis/Desktop/drivers")
-    parser.addoption("--stage", default='local', choices=("local", "remote"))
+    parser.addoption("--stage", default='remote', choices=("local", "remote"))
     parser.addoption("--bversion", action="store", default="114.0")
     parser.addoption("--vnc", action="store_true", default=False)
     parser.addoption("--logs", action="store_true", default=False)
