@@ -33,7 +33,7 @@ pipeline {
         stage('Run tests') {
             steps {
                 catchError {
-                    sh "docker run --rm --network=${network} tests sh -c '/usr/local/bin/pytest -n 2 -m api'"
+                    sh "docker run --rm --network=${network} tests sh -c '/usr/local/bin/pytest -n 4 -m api'"
                     }
             }
         }
