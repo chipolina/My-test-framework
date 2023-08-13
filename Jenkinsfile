@@ -34,14 +34,14 @@ pipeline {
             steps {
                 catchError {
                     sh "docker run --rm --network=${network} -v /tmp/allure-results:/app/allure-results tests sh -c '/usr/local/bin/pytest -n 4 -m api --alluredir=/app/allure-results'"
-                    sh "/opt/homebrew/bin/allure generate /tmp/allure-results -o /tmp/allure-report"
+                    sh "/opt/homebrew/bin/allure generate /app/allure-results -o /app/allure-report"
                 }
             }
         }
         stage('Reports') {
             steps {
-                sh 'mv /tmp/allure-report /app/' // Move the generated report to /app
-                archiveArtifacts artifacts: '**/allure-report/**', allowEmptyArchive: true
+                sh 'mv /app/allure-report /tmp/' // Move the generated report to /tmp
+                archiveArtifacts artifacts: '/tmp/allure-report/**', allowEmptyArchive: true
             }
         }
     }
