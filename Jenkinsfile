@@ -33,7 +33,7 @@ pipeline {
         stage('Run tests') {
             steps {
                 catchError {
-                    sh "docker run --rm --network=${network} tests sh -c '/usr/local/bin/pytest -n 2 -m api' --alluredir /var/lib/jenkins/workspace/Otus_final/allure-results"
+                    sh "docker run --rm --network=${network} tests sh -c '/usr/local/bin/pytest -n 2 -m api'"
                     }
             }
         }
