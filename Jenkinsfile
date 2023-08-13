@@ -2,19 +2,41 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                echo 'Building..'
+                echo 'Checking out code...'
+                checkout scm
             }
         }
-        stage('Test') {
+
+        stage('Build Docker Image') {
             steps {
-                echo 'Testing..'
+                script {
+                    def dockerImage = "tests:${env.BUILD_ID}"
+                    def dockerFile = "Dockerfile"
+
+                    sh "docker build -t ${dockerImage} -f ${dockerFile} ."
+                }
             }
         }
-        stage('Deploy') {
+
+        stage('Install Requirements') {
             steps {
-                echo 'Deploying....'
+                script {
+                    def dockerImage = "tests:${env.BUILD_ID}"
+
+                    sh "docker run --rm -v ${WORKSPACE}:/app ${dockerImage} pip install -r requirements.txt"
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                script {
+                    def dockerImage = "tests:${env.BUILD_ID}"
+
+                    sh "docker run --rm -v ${WORKSPACE}:/app ${dockerImage} pytest -m api"
+                }
             }
         }
     }
