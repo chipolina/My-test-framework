@@ -27,8 +27,9 @@ pipeline {
             steps {
                 catchError {
                     sh "/Users/denis/PycharmProjects/Otus_final/drivers/cm selenoid start"
+                            }
             }
-            }
+        }
         stage('Run tests') {
             steps {
                 catchError {
