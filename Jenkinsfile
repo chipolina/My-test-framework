@@ -33,9 +33,20 @@ pipeline {
         stage('Run tests') {
             steps {
                 catchError {
-                    sh "docker run --rm --network=${network} tests"
+                    sh "docker run --rm --network=${network} tests --alluredir /var/lib/jenkins/workspace/Otus_final/allure-results"
                 }
             }
         }
+        stage('Reports') {
+        steps {
+           allure([
+      	   includeProperties: false,
+      	   jdk: '',
+      	   properties: [],
+      	   reportBuildPolicy: 'ALWAYS',
+      	   results: [[path: '/var/lib/jenkins/workspace/Otus_final/allure-results']]
+    	   ])
+  	        }
+         }
     }
 }
