@@ -30,23 +30,27 @@ pipeline {
                 }
             }
         }
-        stage('Run tests') {
+        stage('Generate Allure Report') {
             steps {
                 catchError {
-                sh "docker run --rm -v /Users/denis/PycharmProjects/Otus_final/allure-results:/app/allure-results tests"
-                            }
+                    script {
+                        sh "docker run --rm -v /Users/denis/PycharmProjects/Otus_final/allure-results:/app/allure-results tests"
+                        allure([
+                            includeProperties: false,
+                            jdk: '',
+                            properties: [],
+                            reportBuildPolicy: 'ALWAYS',
+                            results: [[path: 'app/allure-results']]
+                        ])
+                    }
                 }
-         }
-        stage('Reports') {
-            steps {
-           allure([
-      	   includeProperties: false,
-      	   jdk: '',
-      	   properties: [],
-      	   reportBuildPolicy: 'ALWAYS',
-      	   results: [[path: 'app/allure-results']]
-    	   ])
-  	        }
-         }
+            }
+        }
+        }
+        post {
+            always {
+                archiveArtifacts(artifacts: 'allure-results/**')
+            }
+        }
     }
 }
