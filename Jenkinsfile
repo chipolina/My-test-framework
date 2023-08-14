@@ -44,7 +44,7 @@ pipeline {
       	   jdk: '',
       	   properties: [],
       	   reportBuildPolicy: 'ALWAYS',
-      	   results: [[path: '/Users/denis/PycharmProjects/Otus_final/allure-results']]
+      	   results: [[path: 'target/allure-results']]
     	   ])
   	        }
          }
