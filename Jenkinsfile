@@ -33,7 +33,7 @@ pipeline {
         stage('Run tests') {
             steps {
                 catchError {
-                sh "docker run --rm -v /Users/denis/PycharmProjects/Otus_final/allure-results:/app/allure-results tests"
+                sh "docker run --rm -v /Users/denis/PycharmProjects/Otus_final/allure-results:/allure-results tests"
                             }
                 }
          }
@@ -44,7 +44,7 @@ pipeline {
       	   jdk: '',
       	   properties: [],
       	   reportBuildPolicy: 'ALWAYS',
-      	   results: [[path: 'target/allure-results']]
+      	   results: [[path: 'allure-results']]
     	   ])
   	        }
          }
