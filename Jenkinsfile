@@ -45,11 +45,10 @@ pipeline {
                     }
                 }
             }
-        }
-
-        post {
-            always {
-                archiveArtifacts(artifacts: 'allure-results/**')
+            post {
+                always {
+                    archiveArtifacts(artifacts: 'allure-results/**')
+                }
             }
         }
     }
