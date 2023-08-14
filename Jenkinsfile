@@ -33,7 +33,7 @@ pipeline {
         stage('Run tests') {
         steps {
             catchError {
-                sh "docker run --rm --network=${network} tests sh -c '/usr/local/bin/pytest -n 4 -m api --alluredir=/var/lib/jenkins/workspace/final_project/allure-results'"
+                sh "docker run --rm --network=${network} tests sh -c '/usr/local/bin/pytest -n 4 -m api --alluredir=/app/allure-results'"
          }
          }
          }
@@ -44,7 +44,7 @@ pipeline {
       	   jdk: '',
       	   properties: [],
       	   reportBuildPolicy: 'ALWAYS',
-      	   results: [[path: '/var/lib/jenkins/workspace/final_project/allure-results']]
+      	   results: [[path: '/app/allure-results']]
     	   ])
   	        }
          }
