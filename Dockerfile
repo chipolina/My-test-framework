@@ -10,6 +10,12 @@ RUN pip install -r requirements.txt
 COPY . .
 
 RUN apk update && \
-    apk add allure
+    apk add --no-cache openjdk11 maven git && \
+    git clone https://github.com/allure-framework/allure2.git && \
+    cd allure2 && \
+    mvn clean package && \
+    mv ./target/allure-* /usr/bin/allure && \
+    chmod +x /usr/bin/allure && \
+    apk del git maven
 
 CMD ["bash"]
