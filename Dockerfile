@@ -10,9 +10,6 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-RUN apt-get update && \
-    apt-get install -y allure
-
-CMD ["bash"]
+CMD ["pytest"]
 
 
