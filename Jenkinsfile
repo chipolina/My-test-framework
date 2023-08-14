@@ -31,18 +31,22 @@ pipeline {
             }
         }
         stage('Run tests') {
-            steps {
-                catchError {
-                    sh "docker run --rm --network=${network} -v /tmp/allure-results:/app/allure-results tests sh -c '/usr/local/bin/pytest -n 4 -m api --alluredir=/app/allure-results'"
-                    sh "/opt/homebrew/bin/allure generate /tmp/allure-results -o /tmp/allure-report"
-                }
-            }
-        }
-        stage('Reports') {
-            steps {
-                sh 'mv /tmp/allure-report /app/' // Move the generated report back to /app directory
-                archiveArtifacts artifacts: '/app/allure-report/**', allowEmptyArchive: true
-            }
-        }
+        steps {
+            catchError {
+                sh "docker run --rm --network=${network} tests --alluredir /var/lib/jenkins/workspace/final_project/allure-results"
+         }
+         }
+         }
+     stage('Reports') {
+        steps {
+           allure([
+      	   includeProperties: false,
+      	   jdk: '',
+      	   properties: [],
+      	   reportBuildPolicy: 'ALWAYS',
+      	   results: [[path: '/var/lib/jenkins/workspace/final_project/allure-results']]
+    	   ])
+  	        }
+         }
     }
 }
