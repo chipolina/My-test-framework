@@ -23,18 +23,20 @@ pipeline {
             }
         }
         stage('Generate Allure Report') {
-        steps {
-            catchError {
-                sh """
-                docker run --rm \
-                    -v allure-results:/app/allure-results \
-                    -v /tmp/allure-report:/app/allure-report \
-                    -w /app \
-                    /opt/homebrew/bin/allure generate allure-results -o allure-report
-                """
+            steps {
+                catchError {
+                    script {
+                        def allureResultsDir = "/app/allure-results"
+                        def allureReportDir = "/app/allure-report"
+
+                        docker.image('your-allure-image').inside("-v ${allureResultsDir}:${allureResultsDir}", "-v ${allureReportDir}:${allureReportDir}") {
+                            sh "/opt/homebrew/bin/allure generate ${allureResultsDir} -o ${allureReportDir}"
+                        }
+                    }
+                }
             }
         }
-    }
+
 
         stage('Reports') {
             steps {
