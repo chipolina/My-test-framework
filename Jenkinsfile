@@ -40,11 +40,8 @@ pipeline {
         stage('Reports') {
             steps {
            allure([
-      	   includeProperties: false,
-      	   jdk: '',
-      	   properties: [],
       	   reportBuildPolicy: 'ALWAYS',
-      	   results: [[path: '/Users/denis/.jenkins/workspace/final_pipeline/allure-results']]
+      	   results: [[path: '/Users/denis/PycharmProjects/Otus_final/allure-results']]
     	   ])
   	        }
          }
