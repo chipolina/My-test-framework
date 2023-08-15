@@ -46,6 +46,7 @@ pipeline {
              }
         stage('Reports') {
         steps {
+            sh 'chmod -R o+xw Users/denis/.jenkins/workspace/final_pipeline/allure-report'
            allure([
       	   includeProperties: false,
       	   jdk: '',
