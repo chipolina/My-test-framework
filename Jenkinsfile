@@ -33,7 +33,7 @@ pipeline {
         stage('Run tests') {
             steps {
                 catchError {
-                sh "docker run --rm -v /Users/denis/PycharmProjects/Otus_final/allure-results:/app/allure-results --network=${network} tests"
+                sh "docker run --rm -v /Users/denis/.jenkins/workspace/final_pipeline/allure-results:/app/allure-results --network=${network} tests"
                             }
                 }
          }
