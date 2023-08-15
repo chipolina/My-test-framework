@@ -38,12 +38,22 @@ pipeline {
                 }
          }
         stage('Reports') {
-            steps {
+        steps {
            allure([
+      	   includeProperties: false,
+      	   jdk: '',
+      	   properties: [],
       	   reportBuildPolicy: 'ALWAYS',
-      	   results: [[path: '/Users/denis/PycharmProjects/Otus_final/allure-results']]
+      	   results: [[path: '/var/lib/jenkins/workspace/final_pipeline/allure-results']]
     	   ])
   	        }
          }
-    }
+     stage('Stop selenoid') {
+        steps {
+            catchError {
+                sh "/Users/denis/PycharmProjects/Otus_final/drivers/cm selenoid stop"
+        }
+        }
+     }
+     }
 }
