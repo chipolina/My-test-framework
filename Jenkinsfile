@@ -47,9 +47,8 @@ pipeline {
         stage('Serve Allure Report') {
             steps {
                 catchError {
-                    sh "mkdir -p allure-report"
-                    sh "cp -r allure-results/* allure-report/"
-                    archiveArtifacts artifacts: 'allure-report/*', allowEmptyArchive: true
+                    sh "sudo apt-get update && sudo apt-get install -y python3"
+                    sh "python3 -m http.server -d allure-results"
         }
             }
         }
