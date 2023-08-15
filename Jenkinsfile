@@ -37,16 +37,22 @@ pipeline {
              }
              }
              }
-         stage('Take report results') {
+        stage('Take report results') {
             steps {
                 catchError {
                     sh "docker cp test_run:app/allure-results ."
              }
              }
              }
+        stage('Serve Allure Report') {
+            steps {
+                catchError {
+                    sh "http-server allure-results"
+                }
+            }
+        }
         stage('Reports') {
         steps {
-            sh 'chmod -R o+xw allure-results'
            allure([
       	   includeProperties: false,
       	   jdk: '',
