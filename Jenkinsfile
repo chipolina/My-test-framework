@@ -33,10 +33,17 @@ pipeline {
         stage('Run tests') {
             steps {
                 catchError {
-                sh "docker run --rm -v /Users/denis/.jenkins/workspace/final_pipeline/allure-results:/app/allure-results --network=${network} tests"
-                            }
-                }
-         }
+                    sh "docker run --name test_run --network=${network} tests"
+             }
+             }
+             }
+         stage('Take report results') {
+            steps {
+                catchError {
+                    sh "docker cp test_run:app/allure-results ."
+             }
+             }
+             }
         stage('Reports') {
         steps {
            allure([
@@ -44,7 +51,7 @@ pipeline {
       	   jdk: '',
       	   properties: [],
       	   reportBuildPolicy: 'ALWAYS',
-      	   results: [[path: '/Users/denis/PycharmProjects/Otus_final/allure-results']]
+      	   results: [[path: '/Users/denis/.jenkins/workspace/final_pipeline/allure-results']]
     	   ])
   	        }
          }
@@ -52,6 +59,7 @@ pipeline {
         steps {
             catchError {
                 sh "/Users/denis/PycharmProjects/Otus_final/drivers/cm selenoid stop"
+                sh "docker rm test_run"
         }
         }
      }
