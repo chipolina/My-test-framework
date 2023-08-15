@@ -47,8 +47,10 @@ pipeline {
         stage('Serve Allure Report') {
             steps {
                 catchError {
-                    sh "python3 -m http.server -d allure-results"
-                }
+                    sh "mkdir -p allure-report"
+                    sh "cp -r allure-results/* allure-report/"
+                    archiveArtifacts artifacts: 'allure-report/*', allowEmptyArchive: true
+        }
             }
         }
         stage('Reports') {
