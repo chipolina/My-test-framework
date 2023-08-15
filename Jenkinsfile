@@ -47,7 +47,7 @@ pipeline {
         stage('Serve Allure Report') {
             steps {
                 catchError {
-                    sh "http-server allure-results"
+                    sh "python -m http.server -d allure-results"
                 }
             }
         }
