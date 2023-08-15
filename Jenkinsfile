@@ -49,7 +49,7 @@ pipeline {
                 catchError {
                     script {
                         def workspaceDir = pwd()
-                        sh "docker run --rm -v ${workspaceDir}/allure-results:/allure-results -p 8080:80 python:3.10-slim python3 -m http.server -d /allure-results"
+                        sh "docker run --rm -v ${workspaceDir}/allure-results:/allure-results -p 8083:80 python:3.10-slim python3 -m http.server -d /allure-results"
                     }
                 }
             }
