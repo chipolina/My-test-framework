@@ -33,7 +33,7 @@ pipeline {
         stage('Run tests') {
             steps {
                 catchError {
-                sh "docker run --name test_run --network=${network} tests; docker cp test_run:/app/allure-results ."
+                sh "docker run --rm --name test_run --network=${network} tests; docker cp test_run:/app/allure-results ."
                             }
                 }
          }
@@ -44,7 +44,7 @@ pipeline {
       	   jdk: '',
       	   properties: [],
       	   reportBuildPolicy: 'ALWAYS',
-      	   results: [[path: '/Users/denis/.jenkins/workspace/final_pipeline/allure-results']]
+      	   results: [[path: '/Users/denis/PycharmProjects/Otus_final/allure-results']]
     	   ])
   	        }
          }
