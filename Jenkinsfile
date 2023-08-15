@@ -47,9 +47,11 @@ pipeline {
         stage('Serve Allure Report') {
             steps {
                 catchError {
-                    sh "sudo apt-get update && sudo apt-get install -y python3"
-                    sh "python3 -m http.server -d allure-results"
-        }
+                    script {
+                        def workspaceDir = pwd()
+                        sh "docker run --rm -v ${workspaceDir}/allure-results:/allure-results -p 8080:80 python:3.10-slim python3 -m http.server -d /allure-results"
+                    }
+                }
             }
         }
         stage('Reports') {
