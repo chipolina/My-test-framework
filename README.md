@@ -175,4 +175,7 @@ To run test in Jenkins you need to set up jenkins server and start it using offi
    - Click "Save" to save your Pipeline configuration changes.
 
 5. **Build Job:**
-   - Build the Jenkins job by clicking on "Build with Parameters". Choose the desired values for 'browser' and 'network' parameters.
+   - Build the Jenkins job by clicking on "Build with Parameters". Choose the desired values for 'browser' and 'network' parameters 'chrome' and 'host'
+
+6. **Report:**
+   - After the build is done you can open attached allure report.
