@@ -10,6 +10,6 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-CMD ["pytest", "-n", "4", "-m", "api"]
+CMD ["pytest", "-n", "4"]
 
 

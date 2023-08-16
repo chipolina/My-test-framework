@@ -13,8 +13,7 @@ def pytest_addoption(parser):
     parser.addoption("--headless", action='store_true')
     parser.addoption("--base_url", default="https://demo.nopcommerce.com/")
     parser.addoption("--remote_url", default="127.0.0.1:4444")
-    # TODO изменить параметр drivers_folder
-    parser.addoption("--drivers_folder", default="/Users/denis/Desktop/drivers")
+    parser.addoption("--drivers_folder", default="/Users/denis/PycharmProjects/Otus_final/drivers")
     parser.addoption("--stage", default='remote', choices=("local", "remote"))
     parser.addoption("--bversion", action="store", default="114.0")
     parser.addoption("--vnc", action="store_true", default=False)
@@ -84,6 +83,10 @@ def base_url(request):
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item):
+    """
+    При неудачном запуске теста делаем скриншот
+
+    """
     outcome = yield
     rep = outcome.get_result()
     if rep.when == 'call' and rep.failed:
