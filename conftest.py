@@ -9,11 +9,12 @@ import pytest
 
 
 def pytest_addoption(parser):
+    default_drivers_folder = os.path.join(os.getcwd(), "Otus_final/drivers")
     parser.addoption("--browser", default="chrome", choices=("chrome", "firefox", "safari"))
     parser.addoption("--headless", action='store_true')
     parser.addoption("--base_url", default="https://demo.nopcommerce.com/")
     parser.addoption("--remote_url", default="127.0.0.1:4444")
-    parser.addoption("--drivers_folder", default="/Users/denis/PycharmProjects/Otus_final/drivers")
+    parser.addoption("--drivers_folder", default=default_drivers_folder)
     parser.addoption("--stage", default='remote', choices=("local", "remote"))
     parser.addoption("--bversion", action="store", default="114.0")
     parser.addoption("--vnc", action="store_true", default=False)
